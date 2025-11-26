@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Send data</title>
+</head>
+<body>
+    <div>
+        <label for="field1">Field: </label>
+        <input id="field1" type="number">
+        <label for="value1">Value: </label>
+        <input id="value1" type="number">
+    </div>
+    <div>
+        <label for="field2">Field: </label>
+        <input id="field2" type="number">
+        <label for="value2">Value: </label>
+        <input id="value2" type="number">
+    </div>
+    <div>
+        <label for="field3">Field: </label>
+        <input id="field3" type="number">
+        <label for="value3">Value: </label>
+        <input id="value3" type="number">
+    </div>
+    <div>
+        <button type="button" id="button"  onclick="send()">Send</button>
+    </div>
+</body>
+<script>
+    async function send(){
+        let canSend = false;
+        try{
+            let url = "http://api.thingspeak.com/update?api_key=2GUZ9KAEWMKCMLOR";
+            const field1 = document.getElementById("field1").value;
+            const value1 = document.getElementById("value1").value;
+            const field2 = document.getElementById("field2").value;
+            const value2 = document.getElementById("value2").value;
+            const field3 = document.getElementById("field3").value;
+            const value3 = document.getElementById("value3").value;
+            if(field1 !== "" && value1 !== ""){
+                url += ("&field" + String(field1) + "=" + String(value1));
+                canSend = true;
+            }
+            if(field2 !== "" && value2 !== ""){
+                url += ("&field" + String(field2) + "=" + String(value2));
+                canSend = true;
+            }
+            if(field3 !== "" && value3 !== ""){
+                url += ("&field" + String(field3) + "=" + String(value3));
+                canSend = true;
+            }
+            console.log(url);
+            //console.log(field, value);
+            if(url){
+                const response = await fetch(url, {method:'POST'});
+                console.log(response);
+            }
+        } catch(error){
+            console.error(error);
+        }
+    }
+</script>
+</html>
